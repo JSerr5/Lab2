@@ -7,6 +7,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.io.IOException;
+import java.io.File;
+import java.net.URL;
 
 public class Controller {
 
@@ -22,14 +24,24 @@ public class Controller {
     @FXML
     private Button button_enter;
 
-    // Cosas
     @FXML
     public void initialize() {
-        // Evento para cambiar a la nueva ventana "login.fxml"
+        System.out.println("Archivo FXML cargado correctamente y botón inicializado: " + button_login);
+
         button_login.setOnAction(event -> {
             try {
-                // Cargar la nueva escena desde login.fxml
-                Parent loginRoot = FXMLLoader.load(getClass().getResource("/ventana/login.fxml"));
+                // Verificación de la existencia del archivo FXML antes de cargarlo
+                File fxmlFile = new File("C:/Users/juand/Documents/LP2/Lab2/src/main/resources/ventana/login.fxml");
+                if (!fxmlFile.exists()) {
+                    System.out.println("FXML file not found at: " + fxmlFile.getAbsolutePath());
+                    return;
+                } else {
+                    System.out.println("FXML file found at: " + fxmlFile.getAbsolutePath());
+                }
+
+                // Convertir el archivo FXML a una URL y cargarlo
+                URL fxmlLocation = fxmlFile.toURI().toURL();
+                Parent loginRoot = FXMLLoader.load(fxmlLocation);
                 Scene loginScene = new Scene(loginRoot);
 
                 // Obtener el escenario actual y cambiar la escena
@@ -42,5 +54,4 @@ public class Controller {
             }
         });
     }
-
 }
